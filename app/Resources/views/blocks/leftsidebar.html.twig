@@ -1,0 +1,31 @@
+                    <div class="onekey-space marg-lg-b30"></div>  
+                    <!-- onekey-block -->
+                    <div class="onekey-block no-border small ">
+                        <div class="onekey-about">
+                            <img class="img-responsive center-block" src="/img/icons/{{ shop.img }}" height="130" width="300" alt="">
+                            <div class="text-center">
+                                <a class="onekey-btn" href="{{ shop.landing }}">Оформить заявку</a>
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <div class="onekey-simple-text style-2">
+                                <h5>Размер 1-го кредита:</h5>
+                                <p><span class="large">{{shop.summin }} - {{ shop.firstsummax}} грн</span></p>
+                                <h5>Макс. сумма:</h5>
+                                <p><span class="large">{{ shop.nextsummax }} грн</span></p>
+                                <h5>Срок:</h5>
+                                <p><span class="large">{{ shop.daymin }} - {{ shop.nextdaymax }} дней</span></p>
+                                <h5>Ставка:</h5>
+                                <p><span class="large">{{ shop.firstpercent }} - {{ shop.nextpercent }} %</span></p>
+                                <h5>Условия :</h5>
+                                <ul>
+                                    <li>Возраст 18 лет и старше</li>
+                                    <li>Гражданство Украины</li>
+                                    <li>Наличие постоянного дохода</li>
+                                    <li>Наличие действующей банковской карты в любом банке Украины</li>
+                                    <li>Отсутствие предыдущих просрочек по кредитам</li>
+                                </ul>
+                                <h5>Пример расчета:</h5>
+                                <p>Сумма кредита – 1000 грн.<br/>Cрок кредита – 7 дней<br/>Cтавка – {{ shop.firstpercent }}%<br/>Cумма к возврату – {{ (1000*shop.firstpercent*7)/100+1000 }} грн.<br/>(с учетом скидки на первый кредит)</p>                             
+                            </div>
+                        </div>
+                    </div>

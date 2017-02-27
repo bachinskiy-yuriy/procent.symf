@@ -1,0 +1,39 @@
+                <!-- onekey-calculation -->
+                <div class="onekey-calculation">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="onekey-range-item clearfix" data-counter="" data-step="{{money_step}}" data-to="{{money_default}}" data-min="{{money_min}}" data-max="{{money_max}}">
+                                <div class="onekey-range-top clearfix">
+                                    <h5 class="onekey-range-title">Сумма займа</h5>
+                                    <div class="onekey-range-price">
+                                        <input type="text" class="onekey-range-value" value="{{money_default}}" id="onekey-range-value-0">грн
+                                    </div>
+                                </div>
+                                <div class="onekey-range-inner">
+                                    <div class="onekey-range"></div>
+                                    <div class="onekey-range-change minus">-</div>
+                                    <div class="onekey-range-change plus">+</div>
+                                </div>
+                                <input type="text" class="onekey-range-start" readonly="" value="{{money_min}}" id="onekey-range-start-0">
+                                <input type="text" class="onekey-range-end" readonly="" value="{{money_max}}" id="onekey-range-end-0">
+                            </div>                    
+                        </div>
+                        <div class="col-md-6">
+                            <div class="onekey-range-item clearfix" data-counter="" data-step="{{term_step}}" data-to="{{term_default}}" data-min="{{term_min}}" data-max="{{term_max}}">
+                                <div class="onekey-range-top clearfix">
+                                    <h5 class="onekey-range-title">На срок</h5>
+                                    <div class="onekey-range-price">
+                                        <input type="text" class="onekey-range-value" disabled="" value="{{term_default}}" id="onekey-range-value-1">дней
+                                    </div>
+                                </div>
+                                <div class="onekey-range-inner">
+                                    <div class="onekey-range"></div>
+                                    <div class="onekey-range-change minus">-</div>
+                                    <div class="onekey-range-change plus">+</div>
+                                </div>
+                                <input type="text" class="onekey-range-start" readonly="" value="{{term_min}}" id="onekey-range-start-1">
+                                <input type="text" class="onekey-range-end" readonly="" value="{{term_max}}" id="onekey-range-end-1">
+                            </div>                                
+                        </div>
+                    </div>
+                </div>

@@ -1,0 +1,71 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Comments
+ *
+ * @ORM\Table(name="comments", indexes={@ORM\Index(name="companyid", columns={"companyid"})})
+ * @ORM\Entity
+ */
+class Comments
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user", type="string", length=50, nullable=false)
+     */
+    private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=50, nullable=false)
+     */
+    private $mail;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank", type="integer", nullable=true)
+     */
+    private $rank;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="msg", type="string", length=2000, nullable=false)
+     */
+    private $msg;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publdate", type="datetime", nullable=true)
+     */
+    private $publdate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \AppBundle\Entity\Proposition
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
+     * })
+     */
+    private $companyid;
+
+
+}
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% include 'blocks/head.html.twig' %}
+</head>
+<body class="loaded">
+
+    <!-- onekey header -->
+    <header class="onekey-header">
+        {{ render(controller('AppBundle:Main:mainmenu')) }}
+    </header>
+
+    <div id="onekey-content-wrapper">
+        {% block content %}{% endblock %} 
+    </div>
+
+    {{ render(controller('AppBundle:Main:slider')) }}
+
+    <!-- FOOTER -->
+    <footer class="onekey-footer">
+        {% include 'blocks/footer.html.twig' %}
+    </footer>
+
+    {% include 'blocks/js.html.twig' %}
+
+</body>
+</html>

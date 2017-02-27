@@ -1,0 +1,26 @@
+                    <h4 class="onekey-list-title"><span>Комментарии клиентов сервиса "{{ shop.company }}"</span></h4>
+                    <div class="onekey-space marg-lg-b30"></div>
+
+                    {% for comment in shop.comments|slice(0, commentsperpage) %}
+                    <!-- onekey-comment  -->
+                    <div class="onekey-block no-border small">
+                        <div class="onekey-comment clearfix">
+                            <div class="onekey-comment-name"><span>{{ comment.user }}</span> пишет:</div>
+                            <div class="onekey-comment-date">{{ comment.publdate|date("d/m/y H:i") }}</div>
+                            <div class="onekey-simple-text">
+                                <p>{{ comment.msg }}</p>
+                            </div>
+                            <div class="onekey-simple-star">
+                                <span>Оценка:</span>
+                                {% for star in 1..5 %} 
+                                    {% if star <= comment.rank %}
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    {% else %}   
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="onekey-space marg-lg-b60"></div>
+                    {% endfor %}

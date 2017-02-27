@@ -1,0 +1,23 @@
+        <div class="onekey-header-inner">
+            <div class="container">
+                <div class="onekey-top-inner">
+                    <a class="onekey-logo" href="{{ path('index') }}"><img src="/img/logo.png" height="72" width="353" alt=""></a>
+                    <div class="onekey-toggle-switch"><span></span><span></span><span></span></div>
+                </div>
+                <div class="onekey-toggle-block">
+                    <nav class="onekey-main-nav clearfix">
+                        <ul>
+                            <li><a href="{{ path('howto') }}">Как это работает</a></li>
+                            <li>
+                                <a href="{{ path('index') }}">Компании</a>
+                                <ul>
+                                    {% for shop in shops %}
+                                        <li><a href="{{ path('service', {'id': shop.id}) }}">{{ shop.company }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>

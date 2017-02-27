@@ -1,0 +1,45 @@
+                    <h4 class="onekey-title">оставить отзыв</h4>
+                    <div class="onekey-space marg-lg-b30"></div>
+
+                    <form class="onekey-reply" method="POST" action="{{ path('addcomment') }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="onekey-label">Имя *</label>
+                                <div class="onekey-input style-2">
+                                    <input type="text" required="" name="user">
+                                    <div class="onekey-input-arrow">!</div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="onekey-label">Email *</label>
+                                <div class="onekey-input style-2">
+                                    <input type="text" required="" name="mail">
+                                    <div class="onekey-input-arrow">!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="onekey-label">Текст сообщения...</label>
+                        <textarea class="onekey-area style-2" placeholder="Минимальное количество для заполнения 18 символов" required="" name="msg"></textarea>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="onekey-reply-stars">
+                                    <span class="onekey-reply-stars-label">Ваша оценка:</span>
+                                    <span class="onekey-reply-stars-entry star1">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </span>  
+                                    <input type="hidden" name="rating" id="onekey-reply-star-cnt" value="1"> 
+                                    <input type="hidden" name="service" value="{{ shop.id }}"> 
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="onekey-reply-btn">
+                                    <input class="onekey-btn" type="submit" value="Отправить">                                    
+                                </div>
+                            </div>
+                        </div>
+                    </form>

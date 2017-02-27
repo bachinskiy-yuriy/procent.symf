@@ -1,0 +1,27 @@
+{% extends 'baseLayer.html.twig' %}
+    {% block content %}
+        <div class="onekey-background" style="background-image:url(/img/bg.jpg);">
+            <div class="container">
+                <!-- onekey-heading -->
+                <div class="onekey-heading">
+                    <h1 class="onekey-heading-title">СравниЗайм – сервис сравнения онлайн кредитов в Украине</h1>
+                    <div class="onekey-heading-subtitle">Выберите сумму и срок кредита, сравните предложения от всех финансовых компаний Украины и оформите заявку на самых выгодных для Вас условиях.</div>                    
+                </div>
+                {% include 'blocks/calculator.html.twig'%}                            
+            </div>
+        </div>    
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    {% include 'blocks/propositions.html.twig'%}                            
+                </div>
+                <div class="col-md-3">
+                    <div class="onekey-space marg-lg-b30"></div>
+                    <h4 class="onekey-list-title right">Рейтинг на <span>{{ratingdate}}</span></h4>
+                    <div class="onekey-space marg-lg-b25"></div>
+                    {% include 'blocks/sidebar.html.twig'%}     
+                </div>
+            </div>
+            {% include 'blocks/info.html.twig'%}     
+        </div>
+{% endblock %}
