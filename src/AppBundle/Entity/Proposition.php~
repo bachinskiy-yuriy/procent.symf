@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Proposition
 {
+    public $commision;    
+
+    
     /**
      * @var string
      *
@@ -140,30 +143,29 @@ class Proposition
      */
     private $id;
 
-
     /**
-    * @ORM\OneToOne(targetEntity="About", mappedBy="companyid")
+    * @ORM\OneToMany(targetEntity="About", mappedBy="companyid")
     */
     protected $about;
 	
     /**
     * @ORM\OneToMany(targetEntity="Contact", mappedBy="companyid")
     */
-    protected $contact;
+    protected $contacts;
 
     /**
     * @ORM\OneToMany(targetEntity="Comments", mappedBy="companyid")
+    * @ORM\OrderBy({"publdate" = "DESC"})
     */    
     protected $comments;
 	
 	public function __construct()
     {
-        $this->contact = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->about = new ArrayCollection();
     }
 
-    
-    
     /**
      * Set company
      *
@@ -580,5 +582,97 @@ class Proposition
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set about
+     *
+     * @param \AppBundle\Entity\About $about
+     *
+     * @return Proposition
+     */
+    public function setAbout(\AppBundle\Entity\About $about = null)
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    /**
+     * Get about
+     *
+     * @return \AppBundle\Entity\About
+     */
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
+    /**
+     * Add contact
+     *
+     * @param \AppBundle\Entity\Contact $contact
+     *
+     * @return Proposition
+     */
+    public function addContacts(\AppBundle\Entity\Contact $contact)
+    {
+        $this->contacts[] = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \AppBundle\Entity\Contact $contact
+     */
+    public function removeContacts(\AppBundle\Entity\Contact $contact)
+    {
+        $this->contacts->removeElement($contact);
+    }
+
+    /**
+     * Get contact
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comments $comment
+     *
+     * @return Proposition
+     */
+    public function addComment(\AppBundle\Entity\Comments $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comments $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comments $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

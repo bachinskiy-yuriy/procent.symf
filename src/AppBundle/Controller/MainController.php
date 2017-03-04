@@ -23,19 +23,55 @@ class MainController extends Controller
      */
     public function indexAction()
     {
-        // $shops = $this->getDoctrine()->getRepository('AppBundle:Creditonline')->getShops();
-        $shops = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getShops();
-        return $this->render('index.html.twig',array('shops'=>$shops, 'title'=>'Лучший кредит'));
+        $article = $this->getDoctrine()->getRepository('AppBundle:Articles')->findOneById('/');
+        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'article'=>$article));
     }
+    
+    public function mySort($f1,$f2)
+   {
+      if(($f1->getRecomended() > 0) || ($f2->getRecomended() > 0)){
+          if(($f1->getRecomended() > $f2->getRecomended())) {return -1;} else {return 1;}
+      }
+      // if(($f1->getRecomended() > 0)) return -1;
+      // if(($f2->getRecomended() > 0)) return 1;
+      if($f1->commision < $f2->commision) return -1;
+      elseif($f1->commision > $f2->commision) return 1;
+      else return 0;
+   }
 
     /**
      * @Route("/calc/{money}/{term}", name="calc")
      */    
     public function calcAction($money=2000, $term=30)
     {
-        // $shops = $this->getDoctrine()->getRepository('AppBundle:Creditonline')->getFilteredShops($money,$term);
-        $shops = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getFilteredShops($money,$term);
-        return $this->render('ajax.html.twig', array("shops" => $shops, "money"=> $money, "term"=>$term));
+        $group1 = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getFirstGroup($money,$term);
+        foreach($group1 as $shop){
+            $correctCredit365 = 0; 
+            $correctCreditUp = 0;
+            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
+            if($shop->getId() == 7) { $correctCreditUp = -1;}            
+            $shop->commision = ($shop->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money*(100-$shop->getfirstDiscount())/100/100;
+        }
+        uasort($group1,array($this, "mySort"));
+        $group2 = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getNextGroup($money,$term);
+        foreach($group2 as $shop){
+            $correctCredit365 = 0; 
+            $correctCreditUp = 0;
+            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
+            if($shop->getId() == 7) { $correctCreditUp = -1;}            
+            $shop->commision = ($shop->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100;
+        }
+        uasort($group2,array($this, "mySort"));
+        $group3 = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getLastGroup($money,$term);
+        foreach($group3 as $shop){
+            $correctCredit365 = 0; 
+            $correctCreditUp = 0;
+            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
+            if($shop->getId() == 7) { $correctCreditUp = -1;}            
+            $shop->commision = ($shop->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100;
+        }
+        uasort($group3,array($this, "mySort"));
+        return $this->render('ajax.html.twig', array("group1" => $group1, "group2" => $group2, "group3" => $group3, "money"=> $money, "term"=>$term));
     }
 
     /**
@@ -43,7 +79,7 @@ class MainController extends Controller
      */    
     public function serviceAction($id)
     {
-        $service = $this->getDoctrine()->getRepository('AppBundle:Proposition')->findOneByIdWithContact($id);
+        $service = $this->getDoctrine()->getRepository('AppBundle:Proposition')->findOneById($id);
         return $this->render('service.html.twig', array('shop'=>$service, 'title'=>$service->getCompany()));
     }
     
@@ -105,6 +141,25 @@ class MainController extends Controller
         }finally{
             return $this->redirect($route);
         }
+    }    
+    
+    /**
+     * @Route("/redirect", name="redirect")
+     */    
+    public function redirectAction()
+    {
+        $condition = $_POST['conditions']; 
+        $type = $_POST['type']; 
+        return $this->redirect('/'.$type.'/'.$condition);
+    }       
+    
+    /**
+     * @Route("/{type}/{condition}", name="condition")
+     */    
+    public function conditionAction($type, $condition)
+    {
+        $article = $this->getDoctrine()->getRepository('AppBundle:Articles')->findOneById($type.'/'.$condition);
+        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'article'=>$article));    
     }    
     
 }

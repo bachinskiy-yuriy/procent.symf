@@ -59,7 +59,7 @@ class Comments
     /**
      * @var \AppBundle\Entity\Proposition
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition", inversedBy="comments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
      * })

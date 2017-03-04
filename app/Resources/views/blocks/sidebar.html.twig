@@ -1,11 +1,11 @@
                     <!-- onekey-block -->
                     <div class="onekey-block no-border small ">
-                        <form class="onekey-rating">
+                        <form class="onekey-rating" action="/redirect" method="POST">
                             <div class="onekey-select">
-                                <select>
-                                    <option>Кредит</option>
-                                    <option>Займ</option>
-                                    <option>Деньги</option>
+                                <select name="type">
+                                    <option value="kredit">Кредит</option>
+                                    <option value="zajm">Займ</option>
+                                    <option value="dengi">Деньги</option>
                                 </select>
                                 <div class="onekey-select-arrow">
                                     <div class="onekey-select-up"></div>
@@ -16,72 +16,72 @@
                             <h6 class="onekey-rating-label">Условия</h6>
                             <div class="onekey-radio-wrapper">
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-spravok">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Без справок</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="cherez-internet">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Через интернет</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="do-zarplaty">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">До зарплаты</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-poruchiteley">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Без поручителей</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="s-plohoi-ki">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">С плохой кредитной историей</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bezrabotnym">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Безработным</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-procentov">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Без процентов</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bystryj">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Быстрый</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-otkaza">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Без отказа</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-oficialnogo-trudoustrojstva">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Без официального трудоустройства</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="s-18-let">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">С 18 лет</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="pensioneram">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Пенсионерам</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="nalichnymi">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">Наличными</span>
                                 </label>
                                 <label class="onekey-radio">
-                                    <input class="checkbox-form" type="checkbox" value="">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="na-karty">
                                     <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
                                     <span class="onekey-radio-text">На карту</span>
                                 </label>                          

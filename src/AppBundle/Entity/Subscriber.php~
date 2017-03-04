@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Subscriber
  *
  * @ORM\Table(name="subscriber", uniqueConstraints={@ORM\UniqueConstraint(name="mail", columns={"mail"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\subscriberRepository")
  */
 class Subscriber
 {
@@ -50,5 +50,110 @@ class Subscriber
     private $id;
 
 
-}
 
+    /**
+     * Set user
+     *
+     * @param string $user
+     *
+     * @return Subscriber
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return string
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return Subscriber
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * Set tel
+     *
+     * @param string $tel
+     *
+     * @return Subscriber
+     */
+    public function setTel($tel)
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * Get tel
+     *
+     * @return string
+     */
+    public function getTel()
+    {
+        return $this->tel;
+    }
+
+    /**
+     * Set subscribedate
+     *
+     * @param \DateTime $subscribedate
+     *
+     * @return Subscriber
+     */
+    public function setSubscribedate($subscribedate)
+    {
+        $this->subscribedate = $subscribedate;
+
+        return $this;
+    }
+
+    /**
+     * Get subscribedate
+     *
+     * @return \DateTime
+     */
+    public function getSubscribedate()
+    {
+        return $this->subscribedate;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

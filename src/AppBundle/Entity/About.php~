@@ -31,7 +31,7 @@ class About
     /**
      * @var \AppBundle\Entity\Proposition
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition", inversedBy="about")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
      * })
@@ -39,5 +39,62 @@ class About
     private $companyid;
 
 
-}
 
+    /**
+     * Set article
+     *
+     * @param string $article
+     *
+     * @return About
+     */
+    public function setArticle($article)
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get article
+     *
+     * @return string
+     */
+    public function getArticle()
+    {
+        return $this->article;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set companyid
+     *
+     * @param \AppBundle\Entity\Proposition $companyid
+     *
+     * @return About
+     */
+    public function setCompanyid(\AppBundle\Entity\Proposition $companyid = null)
+    {
+        $this->companyid = $companyid;
+
+        return $this;
+    }
+
+    /**
+     * Get companyid
+     *
+     * @return \AppBundle\Entity\Proposition
+     */
+    public function getCompanyid()
+    {
+        return $this->companyid;
+    }
+}

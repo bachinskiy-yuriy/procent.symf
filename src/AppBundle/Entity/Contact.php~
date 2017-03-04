@@ -38,7 +38,7 @@ class Contact
     /**
      * @var \AppBundle\Entity\Proposition
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition", inversedBy="contacts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
      * })
@@ -46,5 +46,86 @@ class Contact
     private $companyid;
 
 
-}
 
+    /**
+     * Set key
+     *
+     * @param string $key
+     *
+     * @return Contact
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+
+        return $this;
+    }
+
+    /**
+     * Get key
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     *
+     * @return Contact
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set companyid
+     *
+     * @param \AppBundle\Entity\Proposition $companyid
+     *
+     * @return Contact
+     */
+    public function setCompanyid(\AppBundle\Entity\Proposition $companyid = null)
+    {
+        $this->companyid = $companyid;
+
+        return $this;
+    }
+
+    /**
+     * Get companyid
+     *
+     * @return \AppBundle\Entity\Proposition
+     */
+    public function getCompanyid()
+    {
+        return $this->companyid;
+    }
+}

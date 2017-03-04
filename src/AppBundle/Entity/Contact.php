@@ -38,7 +38,7 @@ class Contact
     /**
      * @var \AppBundle\Entity\Proposition
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Proposition", inversedBy="contacts")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
      * })

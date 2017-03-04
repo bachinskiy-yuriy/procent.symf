@@ -13,11 +13,38 @@ use Doctrine\ORM\EntityRepository;
 class propositionRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getFilteredShops($money,$term)
+    public function getFirstGroup($money,$term)
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery('SELECT P FROM AppBundle:proposition P WHERE P.summin<=:money AND P.firstSummax>=:money AND P.daymin<=:term AND P.firstDaymax>=:term ORDER BY P.recomended DESC')->setParameter('money', $money)->setParameter('term',$term);
-        // $query = $em->createQuery('SELECT C FROM AppBundle:creditonline C WHERE C.firstmin<=:money ')->setParameter('money', $money);
+        $query = $em->createQuery('SELECT P FROM AppBundle:proposition P
+        WHERE P.summin<=:money AND P.firstSummax>=:money AND P.daymin<=:term AND P.firstDaymax>=:term 
+        ORDER BY P.recomended DESC')
+        ->setParameter('money', $money)
+        ->setParameter('term',$term);
+        $shops = $query->getResult();
+        return $shops;
+    }
+
+    public function getNextGroup($money,$term)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT P FROM AppBundle:proposition P
+        WHERE P.firstSummax<:money AND P.nextSummax>=:money AND P.daymin<=:term AND P.nextDaymax>=:term 
+        ORDER BY P.recomended DESC')
+        ->setParameter('money', $money)
+        ->setParameter('term',$term);
+        $shops = $query->getResult();
+        return $shops;
+    }
+
+    public function getLastGroup($money,$term)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('SELECT P FROM AppBundle:proposition P
+        WHERE P.summin>:money OR P.nextSummax<:money OR P.daymin>:term OR P.nextDaymax<:term 
+        ORDER BY P.recomended DESC')
+        ->setParameter('money', $money)
+        ->setParameter('term',$term);
         $shops = $query->getResult();
         return $shops;
     }
@@ -30,23 +57,11 @@ class propositionRepository extends \Doctrine\ORM\EntityRepository
         return $shops;
     }
     
-    public function findOneByIdWithContact($id)
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('SELECT P FROM AppBundle:proposition P WHERE P.id=:id')->setParameter('id', $id);
-        $shops = $query->getResult()[0];
-        //return $query->getSingleResult();
-        return $shops;
-    }
-
     public function addComments($user,$mail,$msg,$rank,$service)
     {
         $em = $this->getEntityManager();
         $proposition = $em->createQuery('SELECT P FROM AppBundle:proposition P WHERE P.id=:id')->setParameter('id', $id);
         $comment = new Comments();
         $proposition->setComment($comment);
-        //$shops = $query->getResult()[0];
-        //return $query->getSingleResult();
-        //return $shops;
     }
 }

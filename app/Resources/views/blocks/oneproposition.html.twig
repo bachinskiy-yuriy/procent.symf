@@ -1,0 +1,66 @@
+        <li>
+            <div class="onekey-credit">
+                {% if shop.recomended > 0 %}
+                <div class="onekey-credit-recommend">Рекомендуем</div>
+                {% endif %}
+                <a class="onekey-credit-img" href="{{shop.site}}">
+                    <img src="/img/icons/{{shop.img}}" height="99" width="300" alt="">
+                    <span>{{shop.company}}</span>
+                </a>
+                <div class="onekey-credit-inner">
+                    <div class="onekey-credit-info clearfix">
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">К выплате</div>
+                            <div class="onekey-credit-value total"><span>
+                                {% if shop.roundtype == 1 %}
+                                   {{ (shop.commision + money)|round }}
+                                {% elseif shop.roundtype == 2 %}
+                                   {{ (shop.commision + money)|round(0,'ceil') }}
+                                {% elseif shop.roundtype == 3 %}
+                                   {{ (shop.commision + money)|round(0,'floor') }}
+                                {% elseif shop.roundtype == 4 %}
+                                   {{ (shop.commision + money)|round(1) }}
+                                {% else %}
+                                   {{ (shop.commision + money)|round(2) }}                            
+                                {% endif %}   
+                            </span>грн</div>
+                        </div>
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">Тело кредита</div>
+                            <div class="onekey-credit-value"><span>{{money}}</span>грн</div>
+                        </div>
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">Комиссия</div>
+                            <div class="onekey-credit-value"><span>
+                                {% if shop.roundtype == 1 %}
+                                   {{ (shop.commision)|round }}
+                                {% elseif shop.roundtype == 2 %}
+                                   {{ (shop.commision)|round(0,'ceil') }}
+                                {% elseif shop.roundtype == 3 %}
+                                   {{ (shop.commision)|round(0,'floor') }}
+                                {% elseif shop.roundtype == 4 %}
+                                   {{ (shop.commision)|round(1) }}
+                                {% else %}
+                                   {{ (shop.commision)|round(2) }}                            
+                                {% endif %}   
+                            </span>грн</div>
+                        </div>              
+                    </div>
+                    <div class="onekey-credit-info small clearfix">
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">1й кредит</div>
+                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>грн</div>
+                        </div>
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">Макс. сумма</div>
+                            <div class="onekey-credit-value"><span>{{shop.nextSummax}}</span>грн</div>
+                        </div>
+                        <div class="onekey-credit-cell">
+                            <div class="onekey-credit-label">Срок</div>
+                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>дней</div>
+                        </div>              
+                    </div>                                
+                </div>
+                <a class="onekey-btn" href="{{shop.landing}}">Оформить заявку</a>
+            </div>
+        </li>

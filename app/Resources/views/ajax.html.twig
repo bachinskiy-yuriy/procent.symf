@@ -1,50 +1,31 @@
 <div class="onekey-credit-rating">
+    {% if group1|length > 0 %}
     <ul class="onekey-credit-wrapper success clearfix">
         
-        {% for shop in shops %}
-        <li>
-            <div class="onekey-credit">
-                {% if shop.recomended > 0 %}
-                <div class="onekey-credit-recommend">Рекомендуем</div>
-                {% endif %}
-                <a class="onekey-credit-img" href="{{shop.site}}">
-                    <img src="/img/icons/{{shop.img}}" height="99" width="300" alt="">
-                    <span>{{shop.company}}</span>
-                </a>
-                <div class="onekey-credit-inner">
-                    <div class="onekey-credit-info clearfix">
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">К выплате</div>
-                            <div class="onekey-credit-value total"><span>{{(money*term*shop.firstPercent/100+money)|round}}</span>грн</div>
-                        </div>
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Тело кредита</div>
-                            <div class="onekey-credit-value"><span>{{money}}</span>грн</div>
-                        </div>
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Комиссия</div>
-                            <div class="onekey-credit-value"><span>{{(money*term*shop.firstPercent/100)|round(2)}}</span>грн</div>
-                        </div>              
-                    </div>
-                    <div class="onekey-credit-info small clearfix">
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">1й кредит</div>
-                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>грн</div>
-                        </div>
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Макс. сумма</div>
-                            <div class="onekey-credit-value"><span>{{shop.nextSummax}}</span>грн</div>
-                        </div>
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Срок</div>
-                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>дней</div>
-                        </div>              
-                    </div>                                
-                </div>
-                <a class="onekey-btn" href="{{shop.landing}}">Оформить заявку</a>
-            </div>
-        </li>
+        {% for shop in group1 %}
+            {% include 'blocks/oneproposition.html.twig' %}
         {% endfor %}
         
     </ul>
+    {% endif %}
+    {% if group2|length > 0 %}
+    <ul class="onekey-credit-wrapper partly clearfix">
+        <li class="onekey-message">
+        <div class="onekey-notavailable">Результаты, не соответствующие условиям первого кредита</div>
+        </li>
+        {% for shop in group2 %}
+            {% include 'blocks/oneproposition.html.twig' %}
+        {% endfor %}        
+    </ul>
+    {% endif %}
+    {% if group3|length > 0 %}
+    <ul class="onekey-credit-wrapper disable clearfix">
+        <li class="onekey-message">
+        <div class="onekey-notavailable">Результаты не соответствующие вашим критериям сравнения</div>
+        </li>
+        {% for shop in group3 %}
+            {% include 'blocks/oneproposition.html.twig' %}
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>

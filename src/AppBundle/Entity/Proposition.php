@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Proposition
 {
+    public $commision;    
+
+    
     /**
      * @var string
      *
@@ -140,9 +143,8 @@ class Proposition
      */
     private $id;
 
-
     /**
-    * @ORM\OneToOne(targetEntity="About", mappedBy="companyid")
+    * @ORM\OneToMany(targetEntity="About", mappedBy="companyid")
     */
     protected $about;
 	
@@ -161,10 +163,9 @@ class Proposition
     {
         $this->contacts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->about = new ArrayCollection();
     }
 
-    
-    
     /**
      * Set company
      *
@@ -673,5 +674,53 @@ class Proposition
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add about
+     *
+     * @param \AppBundle\Entity\About $about
+     *
+     * @return Proposition
+     */
+    public function addAbout(\AppBundle\Entity\About $about)
+    {
+        $this->about[] = $about;
+
+        return $this;
+    }
+
+    /**
+     * Remove about
+     *
+     * @param \AppBundle\Entity\About $about
+     */
+    public function removeAbout(\AppBundle\Entity\About $about)
+    {
+        $this->about->removeElement($about);
+    }
+
+    /**
+     * Add contact
+     *
+     * @param \AppBundle\Entity\Contact $contact
+     *
+     * @return Proposition
+     */
+    public function addContact(\AppBundle\Entity\Contact $contact)
+    {
+        $this->contacts[] = $contact;
+
+        return $this;
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \AppBundle\Entity\Contact $contact
+     */
+    public function removeContact(\AppBundle\Entity\Contact $contact)
+    {
+        $this->contacts->removeElement($contact);
     }
 }
