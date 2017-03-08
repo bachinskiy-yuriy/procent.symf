@@ -1,12 +1,16 @@
                     <h4 class="onekey-list-title"><span>Комментарии клиентов сервиса "{{ shop.company }}"</span></h4>
                     <div class="onekey-space marg-lg-b30"></div>
-
-                    {% for comment in shop.comments|slice(0, commentsperpage) %}
+                    {% set break = false %} 
+                    {% for comment in shop.comments if (not break) and ((comment.moderate) or (comment.mail == app.request.cookies.get('mail'))) %}
+                    {% if loop.index == commentsperpage %} {% set break = true %} {% endif %}
                     <!-- onekey-comment  -->
                     <div class="onekey-block no-border small">
                         <div class="onekey-comment clearfix">
                             <div class="onekey-comment-name"><span>{{ comment.user }}</span> пишет:</div>
                             <div class="onekey-comment-date">{{ comment.publdate|date("d/m/y H:i") }}</div>
+                                {% if comment.moderate == 0 %}
+                                    <em style="color:red !important">Your comment is awaiting moderation.</em>
+                                {% endif %}    
                             <div class="onekey-simple-text">
                                 <p>{{ comment.msg }}</p>
                             </div>

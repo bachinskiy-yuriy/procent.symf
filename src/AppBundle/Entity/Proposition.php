@@ -723,4 +723,5 @@ class Proposition
     {
         $this->contacts->removeElement($contact);
     }
+
 }

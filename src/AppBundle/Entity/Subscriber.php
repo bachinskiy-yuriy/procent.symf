@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+// use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Subscriber
@@ -30,7 +31,7 @@ class Subscriber
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=20, nullable=true)
-     */
+    */
     private $tel;
 
     /**
@@ -49,7 +50,10 @@ class Subscriber
      */
     private $id;
 
-
+	public function __construct()
+    {
+        $this->subscribedate = new \DateTime();
+    }
 
     /**
      * Set user

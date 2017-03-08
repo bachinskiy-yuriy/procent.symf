@@ -6,7 +6,8 @@
                             <div class="col-sm-6">
                                 <label class="onekey-label">Имя *</label>
                                 <div class="onekey-input style-2">
-                                    <input type="text" required="" name="user">
+                                    {{ form_widget(form.user, { 'attr': {'value': app.request.cookies.get("user")  } }) }}
+                                    {#<input type="text" required="" name="user" value="{{ app.request.cookies.get('user') }}">#}
                                     <div class="onekey-input-arrow">!</div>
                                 </div>
                                 
@@ -14,13 +15,15 @@
                             <div class="col-sm-6">
                                 <label class="onekey-label">Email *</label>
                                 <div class="onekey-input style-2">
-                                    <input type="text" required="" name="mail">
+                                    {{ form_widget(form.mail, { 'attr': {'value': app.request.cookies.get("mail")  } }) }}
+                                    {#<input type="text" required="" name="mail" value="{{ app.request.cookies.get('mail') }}">#}
                                     <div class="onekey-input-arrow">!</div>
                                 </div>
                             </div>
                         </div>
                         <label class="onekey-label">Текст сообщения...</label>
-                        <textarea class="onekey-area style-2" placeholder="Минимальное количество для заполнения 18 символов" required="" name="msg"></textarea>
+                        {{ form_widget(form.msg, { 'attr': {'class':'onekey-area style-2', 'placeholder': 'Минимальное количество для заполнения 18 символов', 'cols': '5', 'rows': '5'} }) }}
+                        {#<textarea class="onekey-area style-2" placeholder="Минимальное количество для заполнения 18 символов" required="" name="msg"></textarea>#}
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="onekey-reply-stars">
@@ -32,13 +35,16 @@
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </span>  
-                                    <input type="hidden" name="rating" id="onekey-reply-star-cnt" value="1"> 
+                                    {{ form_widget(form.rank, {'id':'onekey-reply-star-cnt', 'type':'hidden', 'attr': {'value': '1' } }) }}
+                                    {{ form_widget(form.companyid, {'attr':{'style':'display:none'}}) }}
+                                    {#<input type="hidden" name="rating" id="onekey-reply-star-cnt" value="1"> #}
                                     <input type="hidden" name="service" value="{{ shop.id }}"> 
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="onekey-reply-btn">
-                                    <input class="onekey-btn" type="submit" value="Отправить">                                    
+                                   {{ form_widget(form.submit, {'label': 'Отправить', 'attr': {'class': 'onekey-btn' } }) }}
+                                    {#<input class="onekey-btn" type="submit" value="Отправить">#}
                                 </div>
                             </div>
                         </div>

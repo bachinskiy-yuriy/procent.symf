@@ -103,22 +103,23 @@
                                 <p>Наше правило - не более 1 письма в месяц.</p>
                             </div>
                             <div class="onekey-input">
-                                <input type="text" name="user" placeholder="Ваше имя *" required="">
+                                {{ form_widget(form.user, { 'attr': {'placeholder': 'Ваше имя *', 'value': app.request.cookies.get("user")  } }) }}
                                 <div class="onekey-input-arrow">!</div>
                             </div>
                             <div class="onekey-input">
-                                <input type="text" name="mail" placeholder="Ваш email *" required="">
+                                {{ form_widget(form.mail, { 'attr': {'placeholder': 'Ваш email *', 'value': app.request.cookies.get("mail") } }) }}
                                 <div class="onekey-input-arrow">!</div>
                             </div>
                             <div class="onekey-input">
-                                <input type="text" name="tel" placeholder="Телефон (опционально)">
+                                {{ form_widget(form.tel, { 'attr': {'placeholder': 'Телефон (опционально)', 'value': app.request.cookies.get("tel") } }) }}
                                 <div class="onekey-input-arrow">!</div>
                             </div>
+                            
                             <div class="onekey-hr"></div>
                             <div class="text-center">
-                                <input class="onekey-btn color-2" type="submit" value="Подписаться">                                  
+                                {{ form_widget(form.submit, { 'label': 'Подписаться', 'attr': {'class': 'onekey-btn color-2' } }) }}
                             </div>                          
-                            <input type="hidden" name="route" value="{{ app.request.getRequestUri() }}">                            
+                            {#<input type="hidden" name="route" value="{{ app.request.getRequestUri() }}">#}
                         </form>
                     </div>
                     <div class="onekey-space marg-lg-b30"></div>                                       

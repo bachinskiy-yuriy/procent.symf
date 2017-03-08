@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Comments
@@ -30,13 +31,14 @@ class Comments
      * @var integer
      *
      * @ORM\Column(name="rank", type="integer", nullable=true)
+     * @Assert\Type(type="numeric")
      */
     private $rank;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="msg", type="string", length=2000, nullable=false)
+     * @ORM\Column(name="msg", type="text", length=2000, nullable=false)
      */
     private $msg;
 
@@ -46,6 +48,13 @@ class Comments
      * @ORM\Column(name="publdate", type="datetime", nullable=true)
      */
     private $publdate;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="moderate", type="boolean", nullable=false)
+     */
+    private $moderate = '0';
 
     /**
      * @var integer
@@ -63,9 +72,14 @@ class Comments
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="companyid", referencedColumnName="id")
      * })
-     */
-    private $companyid;
+     * @Assert\Type("numeric")
+     */ 
+     private $companyid;
 
+	public function __construct()
+    {
+        $this->publdate = new \DateTime();
+    }
 
 
     /**
@@ -186,6 +200,30 @@ class Comments
     public function getPubldate()
     {
         return $this->publdate;
+    }
+
+    /**
+     * Set moderate
+     *
+     * @param boolean $moderate
+     *
+     * @return Comments
+     */
+    public function setModerate($moderate)
+    {
+        $this->moderate = $moderate;
+
+        return $this;
+    }
+
+    /**
+     * Get moderate
+     *
+     * @return boolean
+     */
+    public function getModerate()
+    {
+        return $this->moderate;
     }
 
     /**

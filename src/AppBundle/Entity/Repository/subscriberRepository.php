@@ -14,15 +14,10 @@ use AppBundle\Entity\Subscriber;
 class subscriberRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function addSubscriber($user,$mail,$tel)
+    public function addSubscriber($subscriber)
     {
-        $subsc = new Subscriber();
-        $subsc->setUser($user);
-        $subsc->setMail($mail);
-        $subsc->setTel($tel);
-        $subsc->setSubscribeDate(new \DateTime());
         $em = $this->getEntityManager();
-        $em->persist($subsc);
+        $em->persist($subscriber);
         $em->flush();
     }
 }

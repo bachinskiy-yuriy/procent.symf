@@ -14,15 +14,8 @@ use AppBundle\Entity\Comments;
 class commentsRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function addComment($user,$mail,$msg,$rating,$service,$proposition)
+    public function addComment($comment)
     {
-        $comment = new Comments();
-        $comment->setCompanyId($proposition);
-        $comment->setUser($user);
-        $comment->setMail($mail);
-        $comment->setMsg($msg);
-        $comment->setRank($rating);
-        $comment->setPublDate(new \DateTime());
         $em = $this->getEntityManager();
         $em->persist($comment);
         $em->flush();
