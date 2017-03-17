@@ -6,11 +6,12 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
-
+    locale: "ru"
+    app.path.product_images: "img/icons"
+    
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -50,6 +51,8 @@ twig:
         title: "%title%"
         ratingdate: "%ratingdate%"
         commentsperpage: "%commentsperpage%"
+        money_example: "%money_example%"
+        term_example: "%term_example%"
 
 # Doctrine Configuration
 doctrine:
@@ -80,3 +83,148 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        product_image:
+            uri_prefix: "img/icons"
+            upload_destination: "%kernel.root_dir%/../web/img/icons"
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+            
+easy_admin:
+    site_name: "<img src=/img/logo_f.png> Админка"
+    design:
+        menu:
+            - { entity: 'Proposition', icon: 'list-alt', default: true }
+            - { entity: 'About', icon: 'info-circle' }
+            - { entity: 'Contact', icon: 'address-book-o' }
+            - { entity: 'Comments', icon: 'comments-o' }
+            - { entity: 'Articles', icon: 'file-text-o' }
+            - { entity: 'Subscriber', icon: 'user-o' }
+        form_theme: "vertical"
+        assets:
+            favicon: "/img/admin.png"
+            # color_scheme: "light"
+            # brand_color: '#1ABC9C'
+    list:
+        max_results: 10
+        actions:
+             - { name: 'new', label: 'Add' }
+             - { name: 'search' }
+             - { name: 'edit', icon: 'pencil' }
+             - { name: 'delete', icon: 'trash-o' }
+    show:
+        max_results: 5
+    entities:
+        Proposition:
+            class: AppBundle\Entity\Proposition
+            label: "Propositions"
+            list:
+                title: "Proposition list"
+                fields: [{ property: 'img', label: 'Logo', type: 'image', base_path: '/img/icons/' }, { property: 'company', label: 'Company' },{ property: 'site', label: 'Site' },{ property: 'recomended', label: 'Recomended', type: 'boolean' }]
+                sort: 'recomended'
+            form: 
+                title: "Edit proposition"
+                fields: 
+                    - { type: 'group', label: 'Company info', icon: 'vcard-o', css_class: 'col-sm-6' }
+                    - { property: 'imageFile', label: 'Logo', type : 'vich_image', type_options:{data_class : null} }
+                    - { property: 'company', label: 'Company'}
+                    - { property: 'site', label: 'site' }
+                    - { property: 'landing', label: 'Landing' }
+                    - { type: 'group', label: 'Loan calculator', icon: 'calculator', css_class: 'col-sm-6' }
+                    - { property: 'daymin', label: 'Min days count', type: 'integer' }
+                    - { property: 'summin', label: 'Min summ', type: 'money', type_options: { currency: 'UAH' } }
+                    - { property: 'commision1', label: 'Commission 1', type: 'money', type_options: { currency: 'UAH' } }
+                    - { property: 'commision2', label: 'Commission 2', type : 'percent' }
+                    - { property: 'roundtype', label: 'RoundType' }
+                    - { type: 'group', css_class: 'new-row' }
+                    - { type: 'group', label: 'First loan', icon: 'font', css_class: 'col-sm-6' }
+                    - { property: 'first_daymax', label: 'Max days count', type: 'integer' }
+                    - { property: 'first_summax', label: 'Max summ', type: 'money', type_options: { currency: 'UAH' } }
+                    - { property: 'first_percent', label: 'Percent', type : 'percent' }
+                    - { property: 'first_discount', label: 'Discount', type : 'percent' }
+                    - { type: 'group', label: 'Next loan', icon: 'bold', css_class: 'col-sm-6' }
+                    - { property: 'next_daymax', label: 'Max days count', type: 'integer' }
+                    - { property: 'next_summax', label: 'Max summ', type: 'money', type_options: { currency: 'UAH' } }
+                    - { property: 'next_percent', label: 'Percent', type : 'percent' }
+                    - { type: 'group', label: 'Recommended offer', icon: 'star', css_class: 'col-sm-6' }
+                    - { property: 'recomended', label: 'Recomended rank', type: 'integer' }
+        About:
+            class: AppBundle\Entity\About
+            label: "About company"
+            list:
+                title: "Company info list"
+                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company' },{ property: 'article', label: 'Article' }]
+                # назва компанії - посилання
+                sort: ['id', 'ASC']
+            form:
+                title: "Edit article"
+                fields: 
+                    - { type: 'group', label: 'About company', icon: 'info-circle', css_class: 'col-sm-12' }
+                    - { property: 'article', label: 'Article' }
+                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
+        Contact:
+            class: AppBundle\Entity\Contact
+            label: "Contacts"
+            list:
+                title: "Contact list"
+                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company' }, { property: 'key', label: 'Key' }, { property: 'value', label: 'Value' }]
+                # назва компанії - посилання
+                sort: ['id', 'ASC']
+            form:
+                title: "Edit contact"
+                fields: 
+                    - { type: 'group', label: 'Contact', icon: 'address-book-o', css_class: 'col-sm-12' }
+                    - { property: 'key', label: 'Key' }
+                    - { property: 'value', label: 'Value' }
+                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
+        Comments:
+            class: AppBundle\Entity\Comments
+            label: "Comments"
+            list:
+                title: "Comment list"
+                fields: [{ property: 'publdate', label: 'Pulication date' }, { property: 'user', label: 'User' },{ property: 'msg', label: 'Comment' },{ property: 'rank', label: 'Rank' },{ property: 'moderate', label: 'Active', type:'toggle' }]    
+                sort: ['publdate', 'DESC']
+            form: 
+                title: "Edit comment"
+                fields: 
+                    - { type: 'group', label: 'Коментар', icon: 'comments-o', css_class: 'col-sm-12' }
+                    - { property: 'user', label: 'User' }
+                    - { property: 'mail', label: 'Email' }
+                    - { property: 'rank', label: 'Rank' }
+                    - { property: 'publdate', label: 'Date of publication' }
+                    - { property: 'msg', label: 'Message' }
+                    - { property: 'moderate', label: 'Publication status' }
+                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
+        Articles:
+            class: AppBundle\Entity\Articles
+            label: "Articles"
+            list:
+                title: "Article list"
+                fields: [{ property: 'id', label: 'SLUG' }, { property: 'title', label: 'Title' },{ property: 'article', label: 'Article' }]    
+                # sort: ['publdate', 'DESC']
+            form: 
+                title: "Edit article"
+                fields: 
+                    - { type: 'group', label: 'Article', icon: 'file-text-o', css_class: 'col-sm-12' }
+                    - { property: 'id', label: 'SLUG' }
+                    - { property: 'title', label: 'Header' }
+                    - { property: 'article', label: 'Article body' }
+
+        Subscriber:
+            class: AppBundle\Entity\Subscriber
+            label: "Subscriber"
+            list:
+                title: "Subscriber list"
+                fields: [{ property: 'id', label: 'Id' }, { property: 'user', label: 'User' },{ property: 'mail', label: 'Email' },{ property: 'tel', label: 'Telephone' },{ property: 'subscribedate', label: 'Subscribe date' }]    
+            form: 
+                title: "Edit subscriber"
+                fields: 
+                    - { type: 'group', label: 'Дані користувача', icon: 'user-o', css_class: 'col-sm-12' }
+                    - { property: 'user', label: 'User' }
+                    - { property: 'mail', label: 'Email' }
+                    - { property: 'tel', label: 'Telephone' }
+                    - { property: 'subscribedate', label: 'Subscribe date' }

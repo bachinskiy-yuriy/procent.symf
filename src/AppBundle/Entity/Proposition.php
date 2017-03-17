@@ -3,17 +3,21 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 /**
  * Proposition
  *
  * @ORM\Table(name="proposition")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\propositionRepository")
+ * @Vich\Uploadable
  */
 class Proposition
 {
-    public $commision;    
 
+    public $commision;    
     
     /**
      * @var string
@@ -127,6 +131,20 @@ class Proposition
      */
     private $img;
 
+    /**
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="img")
+     * 
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedat;
+    
     /**
      * @var integer
      *
@@ -543,7 +561,7 @@ class Proposition
     /**
      * Get img
      *
-     * @return string
+     * @return string|null
      */
     public function getImg()
     {
@@ -722,6 +740,38 @@ class Proposition
     public function removeContact(\AppBundle\Entity\Contact $contact)
     {
         $this->contacts->removeElement($contact);
+    }
+
+    public function __toString()
+    {
+        return $this->company;
+    }
+    
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     *
+     * @return Proposition
+     */
+    public function setImageFile(file $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        //if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedat = new \DateTime();
+        //}
+         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
 }

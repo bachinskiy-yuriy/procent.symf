@@ -52,3 +52,6 @@ php app/console doctrine:mapping:convert annotation ./src
 // - добавити в потрібний клас анотацію @ORM\Entity(repositoryClass="AppBundle\Entity\ArticlesRepository")
 // - повторно створити ентіті класи php app/console doctrine:generate:entities AppBundle
 
+
+При інсталяції нових бандлів через композер потрібно дублювати інформацію з файла parameters.yml в файл parameters.yml.dist та вказати кодування UTF-8,
+так як при створенні новго бандла створюється новий файл parameters.yml на основі файлу parameters.yml.dist

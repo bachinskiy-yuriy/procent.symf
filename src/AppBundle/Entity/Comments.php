@@ -259,4 +259,10 @@ class Comments
     {
         return $this->companyid;
     }
+    
+    public function __toString()
+    {
+        return "nothing";
+    }
+
 }

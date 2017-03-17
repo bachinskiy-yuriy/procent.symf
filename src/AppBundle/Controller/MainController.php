@@ -30,12 +30,7 @@ class MainController extends Controller
     {
         // Перевірити регуіред
         $subscriber = new Subscriber();
-        $form = $this->createFormBuilder($subscriber)
-                ->add('user')
-                ->add('mail')
-                ->add('tel')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($subscriber);         
         $article = $this->getDoctrine()
                    ->getRepository('AppBundle:Articles')
                    ->findOneById('/');
@@ -51,7 +46,23 @@ class MainController extends Controller
       elseif($f1->commision > $f2->commision) return 1;
       else return 0;
    }
-
+    
+    public function getCommision($service,$term,$money,$group)
+    {
+        $correctCredit365 = 0; 
+        $correctCreditUp = 0;
+        if($service->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
+        if($service->getId() == 7) { $correctCreditUp = -1;}            
+        switch($group){
+            case 1: $service->commision = ($service->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money*(100-$service->getfirstDiscount())/100/100+$service->getCommision1()+$service->getCommision2()*$money;
+            break;
+            case 2: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
+            break;
+            case 3: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
+        }        
+        return $service;
+    }
+   
     /**
      * @Route("/calc/{money}/{term}", name="calc")
      */    
@@ -61,29 +72,21 @@ class MainController extends Controller
                   ->getRepository('AppBundle:Proposition')
                   ->getFirstGroup($money,$term);
         foreach($group1 as $shop){
-            $correctCredit365 = 0; 
-            $correctCreditUp = 0;
-            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
-            if($shop->getId() == 7) { $correctCreditUp = -1;}            
-            $shop->commision = ($shop->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money*(100-$shop->getfirstDiscount())/100/100+$shop->getCommision1()+$shop->getCommision2()*$money;
+            $shop = $this -> getCommision($shop,$term,$money,1);
         }
         uasort($group1,array($this, "mySort"));
-        $group2 = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getNextGroup($money,$term);
+        $group2 = $this->getDoctrine()
+                  ->getRepository('AppBundle:Proposition')
+                  ->getNextGroup($money,$term);
         foreach($group2 as $shop){
-            $correctCredit365 = 0; 
-            $correctCreditUp = 0;
-            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
-            if($shop->getId() == 7) { $correctCreditUp = -1;}            
-            $shop->commision = ($shop->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$shop->getCommision1()+$shop->getCommision2()*$money;
+            $shop = $this -> getCommision($shop,$term,$money,2);
         }
         uasort($group2,array($this, "mySort"));
-        $group3 = $this->getDoctrine()->getRepository('AppBundle:Proposition')->getLastGroup($money,$term);
+        $group3 = $this->getDoctrine()
+                  ->getRepository('AppBundle:Proposition')
+                  ->getLastGroup($money,$term);
         foreach($group3 as $shop){
-            $correctCredit365 = 0; 
-            $correctCreditUp = 0;
-            if($shop->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
-            if($shop->getId() == 7) { $correctCreditUp = -1;}            
-            $shop->commision = ($shop->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$shop->getCommision1()+$shop->getCommision2()*$money;
+            $shop = $this -> getCommision($shop,$term,$money,3);
         }
         uasort($group3,array($this, "mySort"));
         return $this->render('ajax.html.twig', array("group1" => $group1, "group2" => $group2, "group3" => $group3, "money"=> $money, "term"=>$term));
@@ -97,16 +100,10 @@ class MainController extends Controller
         $service = $this->getDoctrine()
                    ->getRepository('AppBundle:Proposition')
                    ->findOneById($id);
+        $service = $this->getCommision($service,7,1000,1);
         $comments = new Comments();
         $comments->setCompanyId($service);
-        $form = $this->createFormBuilder($comments)
-                ->add('user')
-                ->add('mail')
-                ->add('rank')
-                ->add('companyid', EntityType::Class,array( 'class' => "AppBundle\Entity\Proposition",'choice_label' => 'id'))
-                ->add('msg')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($comments);         
         return $this->render('service.html.twig', array('shop'=>$service, 'title'=>$service->getCompany(), 'form' => $form->createView()));
     }
     
@@ -116,12 +113,7 @@ class MainController extends Controller
     public function howtoAction()
     {
         $subscriber = new Subscriber();
-        $form = $this->createFormBuilder($subscriber)
-                ->add('user')
-                ->add('mail')
-                ->add('tel')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($subscriber);         
         $shops = $this->getDoctrine()
                  ->getRepository('AppBundle:Proposition')
                  ->getShops();
@@ -156,16 +148,8 @@ class MainController extends Controller
     public function addcommentAction(Request $request)
     {
         //date_default_timezone_set('Europe/Kiev'); 
-
         $comment = new Comments();
-        $form = $this->createFormBuilder($comment)
-                ->add('user')
-                ->add('mail')
-                ->add('rank')
-                ->add('companyid', EntityType::Class,array( 'class' => "AppBundle\Entity\Proposition",'choice_label' => 'id'))
-                ->add('msg')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($comment); 
         $form->handleRequest($request);
         $comment = $form->getData();         
         $response = new Response();
@@ -184,12 +168,7 @@ class MainController extends Controller
     public function addsubscriberAction(Request $request)
     {
         $subscriber = new Subscriber();
-        $form = $this->createFormBuilder($subscriber)
-                ->add('user')
-                ->add('mail')
-                ->add('tel')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($subscriber); 
         $form->handleRequest($request);
         $subscriber = $form->getData();         
         $response = new Response();
@@ -223,16 +202,33 @@ class MainController extends Controller
     public function conditionAction($type, $condition)
     {
         $subscriber = new Subscriber();
-        $form = $this->createFormBuilder($subscriber)
-                ->add('user')
-                ->add('mail')
-                ->add('tel')
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        $form = $this->getForm($subscriber); 
         $article = $this->getDoctrine()
                    ->getRepository('AppBundle:Articles')
                    ->findOneById($type.'/'.$condition);
         return $this->render('index.html.twig',array('title'=>$article->getTitle(),'article'=>$article, 'form'=>$form->createView()));    
-    }    
-    
+    }  
+
+    public function getForm($entity)
+    {
+        if($entity instanceof Subscriber){
+            $form =  $this->createFormBuilder($entity)
+                     ->add('user')
+                     ->add('mail')
+                     ->add('tel')
+                     ->add('submit', SubmitType::class)
+                     ->getForm();
+        }        
+        if($entity instanceof Comments){
+            $form = $this->createFormBuilder($entity)
+                    ->add('user')
+                    ->add('mail')
+                    ->add('rank')
+                    ->add('companyid', EntityType::Class,array( 'class' => "AppBundle\Entity\Proposition",'choice_label' => 'id'))
+                    ->add('msg')
+                    ->add('submit', SubmitType::class)
+                    ->getForm();
+        } 
+        return $form;        
+    }   
 }

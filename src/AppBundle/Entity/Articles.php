@@ -22,7 +22,7 @@ class Articles
     /**
      * @var string
      *
-     * @ORM\Column(name="article", type="string", length=2000, nullable=false)
+     * @ORM\Column(name="article", type="text", length=2000, nullable=false)
      */
     private $article;
 

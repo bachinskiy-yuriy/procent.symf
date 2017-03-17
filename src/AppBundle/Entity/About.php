@@ -15,7 +15,7 @@ class About
     /**
      * @var string
      *
-     * @ORM\Column(name="article", type="string", length=4000, nullable=false)
+     * @ORM\Column(name="article", type="text", length=4000, nullable=false)
      */
     private $article;
 
@@ -96,5 +96,10 @@ class About
     public function getCompanyid()
     {
         return $this->companyid;
+    }
+
+    public function __toString()
+    {
+        return $this->article;
     }
 }
