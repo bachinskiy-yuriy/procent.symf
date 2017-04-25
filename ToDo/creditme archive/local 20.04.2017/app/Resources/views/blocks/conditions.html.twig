@@ -1,0 +1,13 @@
+                            <h6 class="onekey-rating-label">{%trans%}Conditions{%endtrans%}</h6>
+                            <div class="onekey-radio-wrapper">
+                            {% set filter = app.session.get('condition') %}
+                            {% for condition in conditions %} 
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="{{condition.id}}" {%if condition.id == filter %} checked=true {%endif%}>
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <a href="{{condition.id}}">
+                                    <span class="onekey-radio-text">{{condition.filter}}</span>
+                                    </a>
+                                </label>
+                            {% endfor %}    
+                            </div>

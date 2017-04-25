@@ -1,16 +1,16 @@
         <li>
             <div class="onekey-credit">
                 {% if shop.recomended > 0 %}
-                <div class="onekey-credit-recommend">Рекомендуем</div>
+                <div class="onekey-credit-recommend">{%trans%}Recomended{%endtrans%}</div>
                 {% endif %}
-                <a class="onekey-credit-img" href="{{shop.site}}">
+                <a class="onekey-credit-img" href="{{ path('shop', {'serviceslug': shop.slug}) }}">
                     <img src="/img/icons/{{shop.img}}" height="99" width="300" alt="">
                     <span>{{shop.company}}</span>
                 </a>
                 <div class="onekey-credit-inner">
                     <div class="onekey-credit-info clearfix">
                         <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">К выплате</div>
+                            <div class="onekey-credit-label">{%trans%}To payoff{%endtrans%}</div>
                             <div class="onekey-credit-value total"><span>
                                 {% if shop.roundtype == 1 %}
                                    {{ (shop.commision + money)|round }}
@@ -26,11 +26,11 @@
                             </span>грн</div>
                         </div>
                         <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Тело кредита</div>
+                            <div class="onekey-credit-label">{%trans%}Body of credit{%endtrans%}</div>
                             <div class="onekey-credit-value"><span>{{money}}</span>грн</div>
                         </div>
                         <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Комиссия</div>
+                            <div class="onekey-credit-label">{%trans%}Commission{%endtrans%}</div>
                             <div class="onekey-credit-value"><span>
                                 {% if shop.roundtype == 1 %}
                                    {{ (shop.commision)|round }}
@@ -48,19 +48,18 @@
                     </div>
                     <div class="onekey-credit-info small clearfix">
                         <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">1й кредит</div>
-                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>грн</div>
+                            <div class="onekey-credit-label"><a href="{{ path('shop', {'serviceslug': shop.slug}) }}#review">Смотреть все отзывы&nbsp;({{shop.commentscount}})</a></div>
                         </div>
                         <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Макс. сумма</div>
-                            <div class="onekey-credit-value"><span>{{shop.nextSummax}}</span>грн</div>
+                            <div class="onekey-credit-label">Рейтинг</div>
+                            <div class="onekey-reply-stars"><span>
+                                {% for num in 1 .. 5 %}
+                                    <i class="{%if num <= shop.avgrank %}fa fa-star{%else%}fa fa-star-o{%endif%}" style="font-size: 16px" aria-hidden="true"></i>
+                                {% endfor %}
+                            </span></div>
                         </div>
-                        <div class="onekey-credit-cell">
-                            <div class="onekey-credit-label">Срок</div>
-                            <div class="onekey-credit-value"><span>{{shop.daymin}} - {{shop.firstDaymax}}</span>дней</div>
-                        </div>              
                     </div>                                
                 </div>
-                <a class="onekey-btn" href="{{shop.landing}}">Оформить заявку</a>
+                <a class="onekey-btn" href="{{shop.landing}}">{%trans%}Make a request{%endtrans%}</a>
             </div>
         </li>

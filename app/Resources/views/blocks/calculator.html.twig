@@ -4,7 +4,7 @@
                         <div class="col-md-6">
                             <div class="onekey-range-item clearfix" data-counter="" data-step="{{money_step}}" data-to="{{money_default}}" data-min="{{money_min}}" data-max="{{money_max}}">
                                 <div class="onekey-range-top clearfix">
-                                    <h5 class="onekey-range-title">Сумма займа</h5>
+                                    <div class="onekey-range-title">{% trans %}Loan amount{% endtrans %}</div>
                                     <div class="onekey-range-price">
                                         <input type="text" class="onekey-range-value" value="{{money_default}}" id="onekey-range-value-0">грн
                                     </div>
@@ -21,9 +21,9 @@
                         <div class="col-md-6">
                             <div class="onekey-range-item clearfix" data-counter="" data-step="{{term_step}}" data-to="{{term_default}}" data-min="{{term_min}}" data-max="{{term_max}}">
                                 <div class="onekey-range-top clearfix">
-                                    <h5 class="onekey-range-title">На срок</h5>
+                                    <div class="onekey-range-title">{% trans %}On term{% endtrans %}</div>
                                     <div class="onekey-range-price">
-                                        <input type="text" class="onekey-range-value" disabled="" value="{{term_default}}" id="onekey-range-value-1">дней
+                                        <input type="text" class="onekey-range-value" disabled="" value="{{term_default}}" id="onekey-range-value-1">{%trans%}days{%endtrans%}
                                     </div>
                                 </div>
                                 <div class="onekey-range-inner">

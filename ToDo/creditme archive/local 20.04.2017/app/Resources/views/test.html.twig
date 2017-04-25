@@ -1,0 +1,36 @@
+{% extends 'EasyAdminBundle:default:layout.html.twig' %} 
+    {% block main %}
+        {% if csv|length > 0 %}
+            {% for file in csv %} 
+                {{ file|raw }}<br>
+            {% endfor %} 
+        {% else %}
+            <form method="POST" enctype="multipart/form-data">
+                <fieldset>
+                     <legend>Предложения:</legend>
+                     <input type="file" name="Propositions"><br>
+                <fieldset>
+                <fieldset>
+                     <legend>Инфо:</legend>
+                     <input type="file" name="Info"><br>
+                <fieldset>
+                <fieldset>
+                     <legend>Контакты:</legend>
+                     <input type="file" name="Contacts"><br>
+                <fieldset>
+                <fieldset>
+                     <legend>Комментарии:</legend>
+                     <input type="file" name="Comments"><br>
+                <fieldset>
+                <fieldset>
+                     <legend>Статьи:</legend>
+                     <input type="file" name="Articles"><br>
+                <fieldset>
+                <fieldset>
+                     <legend>Подписчики:</legend>
+                     <input type="file" name="Subscribers"><br>
+                <fieldset>
+                <button type="submit" class="btn btn-primary action-new"> <i class="fa fa-files-o"> Импортировать</i></button>
+            </form>                
+        {% endif %}
+    {% endblock %}

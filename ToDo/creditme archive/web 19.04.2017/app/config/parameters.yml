@@ -1,0 +1,25 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: blablapr.mysql.ukraine.com.ua
+    database_port: null
+    database_name: blablapr_credit
+    database_user: blablapr_credit
+    database_password: 6cunrr7z
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: office.creditme@gmail.com
+    mailer_password: null
+    secret: be230407e07a52b155418080da2ba676a982c41b
+    money_min: 50
+    money_max: 10000
+    money_step: 50
+    money_default: 2000
+    term_min: 1
+    term_max: 35
+    term_step: 1
+    term_default: 10
+    title: 'Лучший кредит'
+    ratingdate: 'февраль 2017 г.'
+    commentsperpage: 5
+    money_example: 1000
+    term_example: 7

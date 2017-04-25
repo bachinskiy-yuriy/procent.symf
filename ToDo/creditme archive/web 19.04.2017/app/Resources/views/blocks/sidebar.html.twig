@@ -1,0 +1,124 @@
+                    <!-- onekey-block -->
+                    <div class="onekey-block no-border small ">
+                        <form class="onekey-rating" action={{path('redirect')}} method="POST">
+                            <div class="onekey-select">
+                                <select name="type">
+                                    <option value="kredit">{%trans%}Credit{%endtrans%}</option>
+                                    <option value="zajm">{%trans%}Borrowing{%endtrans%}</option>
+                                    <option value="dengi">{%trans%}Money{%endtrans%}</option>
+                                </select>
+                                <div class="onekey-select-arrow">
+                                    <div class="onekey-select-up"></div>
+                                    <div class="onekey-select-down"></div>
+                                </div>
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <h6 class="onekey-rating-label">{%trans%}Conditions{%endtrans%}</h6>
+                            <div class="onekey-radio-wrapper">
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-spravok" checked=true>
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Without references{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="cherez-internet">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Through the internet{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="do-zarplaty">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}To wage{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-poruchiteley">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Without guarantors{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="s-plohoi-ki">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}With a bad credit history{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bezrabotnym">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Unemployed{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-procentov">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Without interest{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bystryj">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Fast{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-otkaza">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Without rejection{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="bez-oficialnogo-trudoustrojstva">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Without official employment{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="s-18-let">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}From 18 years old{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="pensioneram">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}Pensioners{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="nalichnymi">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}In cash{%endtrans%}</span>
+                                </label>
+                                <label class="onekey-radio">
+                                    <input class="checkbox-form" type="radio" name="conditions" value="na-karty">
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                    <span class="onekey-radio-text">{%trans%}On card{%endtrans%}</span>
+                                </label>                          
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <div class="text-center">
+                                <input class="onekey-btn color-2" type="submit" value="{%trans%}Compare{%endtrans%}">                                  
+                            </div>
+                        </form>
+                    </div>
+                    <div class="onekey-space marg-lg-b25"></div>
+                    <div class="onekey-block no-border small ">
+                        <form class="onekey-subscribe" method="POST" action="{{ path('addsubscriber') }}">
+                            <img class="img-responsive center-block" src="/img/logo.png" height="82" width="250" alt="">
+                            <div class="onekey-simple-text">
+                                <p>{%trans%}Would you like to receive a loan on the most favorable terms?{%endtrans%}</p>
+                                <p>{%trans%}Subscribe to our newsletter with shares from credit companies{%endtrans%}</p>
+                                <p>{%trans%}Our rule is no more than 1 letter per month.{%endtrans%}</p>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.user, { 'attr': {'placeholder': 'Your name *', 'value': app.request.cookies.get("user")  } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.mail, { 'attr': {'placeholder': 'Your email *', 'value': app.request.cookies.get("mail") } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.tel, { 'attr': {'placeholder': 'Telephone (optional)', 'value': app.request.cookies.get("tel") } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            
+                            <div class="onekey-hr"></div>
+                            <div class="text-center">
+                                {{ form_widget(form.submit, { 'label': 'Subscribe', 'attr': {'class': 'onekey-btn color-2' } }) }}
+                            </div>                          
+                            {#<input type="hidden" name="route" value="{{ app.request.getRequestUri() }}">#}
+                        </form>
+                    </div>
+                    <div class="onekey-space marg-lg-b30"></div>                                       

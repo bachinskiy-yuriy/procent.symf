@@ -1,0 +1,31 @@
+<div class="onekey-credit-rating">
+    {% if group1|length > 0 %}
+    <ul class="onekey-credit-wrapper success clearfix">
+        
+        {% for shop in group1 %}
+            {% include 'blocks/oneproposition.html.twig' %}
+        {% endfor %}
+        
+    </ul>
+    {% endif %}
+    {% if group2|length > 0 %}
+    <ul class="onekey-credit-wrapper partly clearfix">
+        <li class="onekey-message">
+        <div class="onekey-notavailable">Результаты, не соответствующие условиям первого кредита</div>
+        </li>
+        {% for shop in group2 %}
+            {% include 'blocks/oneproposition.html.twig' %}
+        {% endfor %}        
+    </ul>
+    {% endif %}
+    {% if group3|length > 0 %}
+    <ul class="onekey-credit-wrapper disable clearfix">
+        <li class="onekey-message">
+        <div class="onekey-notavailable">Результаты не соответствующие вашим критериям сравнения</div>
+        </li>
+        {% for shop in group3 %}
+            {% include 'blocks/oneproposition.html.twig' %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

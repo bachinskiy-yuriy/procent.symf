@@ -1,0 +1,51 @@
+{% if app.session.get('group') > 0 %} 
+  {% set group = app.session.get('group') %} 
+{% else %} 
+  {% set group = 1 %} 
+{% endif %}
+                <dl id="accordion">
+                    <dt {% if group == 1 %} class="active" {%endif%}><span><div class="bg"><div class="wrapper">Кредит</span></div></div></dt>
+                    <dd {% if group == 1 %} style="display: block;" {%endif%}>
+                        <div class="indent">
+                            <ul>
+                                {% for condition in conditions if condition.parentid==1 %}
+                                    <label class="onekey-radio">
+                                    <a href='{{condition.id}}'>
+                                    <input class="checkbox-form" type="radio" name="conditions" value="{{condition.id}}" {%if condition.id == app.session.get('condition') %} checked=true {%endif%} />
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                        <div class='onekey-radio-text'>{{condition.filter}}</div>
+                                    </a> 
+                                    </label>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </dd>
+                    <dt {% if group == 2 %} class="active" {%endif%}><span><div class="bg"><div class="wrapper">Займ</span></div></div></dt>
+                    <dd {% if group == 2 %} style="display: block;" {%endif%}>
+                        <div class="indent">
+                                {% for condition in conditions if condition.parentid==2 %}
+                                    <label class="onekey-radio">
+                                    <a href='{{condition.id}}'>
+                                    <input class="checkbox-form" type="radio" name="conditions" value="{{condition.id}}" {%if condition.id == app.session.get('condition') %} checked=true {%endif%} />
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                        <div class='onekey-radio-text'>{{condition.filter}}</div>
+                                    </a> 
+                                    </label>
+                                {% endfor %}
+                        </div>
+                    </dd>
+                    <dt {% if group == 3 %} class="active" {%endif%}><span><div class="bg"><div class="wrapper">Деньги</span></div></div></dt>
+                    <dd {% if group == 3 %} style="display: block;" {%endif%}>
+                        <div class="indent">
+                                {% for condition in conditions if condition.parentid==3 %}
+                                    <label class="onekey-radio">
+                                    <a href='{{condition.id}}'>
+                                    <input class="checkbox-form" type="radio" name="conditions" value="{{condition.id}}" {%if condition.id == app.session.get('condition') %} checked=true {%endif%} />
+                                    <span class="onekey-radio-check"><i class="fa fa-check"></i></span>
+                                        <div class='onekey-radio-text'>{{condition.filter}}</div>
+                                    </a> 
+                                    </label>
+                                {% endfor %}
+                        </div>
+                    </dd>
+				</dl>                           

@@ -1,11 +1,11 @@
 {% extends 'baseLayer.html.twig' %}
     {% block content %}
-        <div class="onekey-background" style="background-image:url(/img/bg.jpg);">
+        <div class="onekey-background" style="{{ bg }}">
             <div class="container">
                 <!-- onekey-heading -->
                 <div class="onekey-heading">
-                    <h1 class="onekey-heading-title">СравниЗайм – сервис сравнения онлайн кредитов в Украине</h1>
-                    <div class="onekey-heading-subtitle">Выберите сумму и срок кредита, сравните предложения от всех финансовых компаний Украины и оформите заявку на самых выгодных для Вас условиях.</div>                    
+                    <h1 class="onekey-heading-title">{% trans %}Credit Me - online credit comparison service in Ukraine{% endtrans %}</h1>
+                    <div class="onekey-heading-subtitle">{% trans %}Choose the amount and term of the loan, compare the offers from all financial companies of Ukraine and apply for the most favorable conditions for you.{% endtrans %}</div>                    
                 </div>
                 {% include 'blocks/calculator.html.twig'%}                            
             </div>
@@ -13,13 +13,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    {% include 'blocks/propositions.html.twig'%}                            
+                    {% include 'blocks/propositions.html.twig' %}                            
                 </div>
                 <div class="col-md-3">
                     <div class="onekey-space marg-lg-b30"></div>
-                    <h4 class="onekey-list-title right">Рейтинг на <span>{{ratingdate}}</span></h4>
+                    <h3 class="onekey-list-title right">{%trans%}Updated rating{%endtrans%}</h3>
                     <div class="onekey-space marg-lg-b25"></div>
-                    {% include 'blocks/sidebar.html.twig'%}     
+                    {% include 'blocks/sidebar.html.twig' %}     
                 </div>
             </div>
             {% include 'blocks/info.html.twig'%}

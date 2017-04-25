@@ -1,0 +1,65 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Авторизация на сайте</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 separator social-login-box"> <br />
+                            <a href="#" class="btn facebook btn-block" role="button">Войти с помощью Facebook</a>
+                            <br />
+                            <a href="#" class="btn twitter btn-block" role="button">Войти с помощью Twitter</a>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 login-box">
+                            <form action="{{ path("fos_user_security_check") }}" method="post">
+                                {% if csrf_token %}
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                {% endif %}
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" id="username" class="form-control" placeholder="Имя пользователя" name="_username" value="{{ last_username }}" required autofocus />
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                    <input type="password" id="password" name="_password" class="form-control" placeholder="Ваш пароль" required />
+                                </div>
+                                <p>
+                                <a href="#">Забыли свой пароль?</a></p>
+                                У вас нет аккаунта? <a href="#">Регистрация</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="remember_me" name="_remember_me" value="on">
+                                    Запомнить меня
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-labeled btn-success" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+                            <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Войти</button>
+                            <button type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Выход</button>
+                        </div>
+                    </div>
+                </div>
+                                            </form>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,14 +7,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Entity\Comments;
+use AppBundle\Entity\Proposition;
+use AppBundle\Entity\About;
+use AppBundle\Entity\Contact;
+use AppBundle\Entity\Articles;
 use AppBundle\Entity\Subscriber;
+use AppBundle\Entity\Post;
+use AppBundle\Entity\Conditions;
 
 class MainController extends Controller
 {    
+
+
     /**
      * @Route("/phpinfo", name="info")
      */    
@@ -26,43 +35,20 @@ class MainController extends Controller
     /**
      * @Route("/", name="index")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        // Перевірити регуіред
+        $session  = $this->get('session');
+        $session->remove('condition');
+        $session->remove('group');
         $subscriber = new Subscriber();
         $form = $this->getForm($subscriber);         
         $article = $this->getDoctrine()
                    ->getRepository('AppBundle:Articles')
                    ->findOneById('/');
-        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'article'=>$article,'form'=>$form->createView()));
+        if(!$article) throw $this->createNotFoundException("Article not found");                   
+        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'meta'=>$article->getMeta(),'article'=>$article,'form'=>$form->createView()));
     }
-    
-    public function mySort($f1,$f2)
-   {
-      if(($f1->getRecomended() > 0) || ($f2->getRecomended() > 0)){
-          if(($f1->getRecomended() > $f2->getRecomended())) {return -1;} else {return 1;}
-      }
-      if($f1->commision < $f2->commision) return -1;
-      elseif($f1->commision > $f2->commision) return 1;
-      else return 0;
-   }
-    
-    public function getCommision($service,$term,$money,$group)
-    {
-        $correctCredit365 = 0; 
-        $correctCreditUp = 0;
-        if($service->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
-        if($service->getId() == 7) { $correctCreditUp = -1;}            
-        switch($group){
-            case 1: $service->commision = ($service->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money*(100-$service->getfirstDiscount())/100/100+$service->getCommision1()+$service->getCommision2()*$money;
-            break;
-            case 2: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
-            break;
-            case 3: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
-        }        
-        return $service;
-    }
-   
+        
     /**
      * @Route("/calc/{money}/{term}", name="calc")
      */    
@@ -71,6 +57,7 @@ class MainController extends Controller
         $group1 = $this->getDoctrine()
                   ->getRepository('AppBundle:Proposition')
                   ->getFirstGroup($money,$term);
+        //if(!$group1) throw $this->createNotFoundException("Can't create group#1 of propositions");                   
         foreach($group1 as $shop){
             $shop = $this -> getCommision($shop,$term,$money,1);
         }
@@ -78,6 +65,7 @@ class MainController extends Controller
         $group2 = $this->getDoctrine()
                   ->getRepository('AppBundle:Proposition')
                   ->getNextGroup($money,$term);
+        //if(!$group2) throw $this->createNotFoundException("Can't create group#2 of propositions");                   
         foreach($group2 as $shop){
             $shop = $this -> getCommision($shop,$term,$money,2);
         }
@@ -85,13 +73,38 @@ class MainController extends Controller
         $group3 = $this->getDoctrine()
                   ->getRepository('AppBundle:Proposition')
                   ->getLastGroup($money,$term);
+        // if(!$group3) throw $this->createNotFoundException("Can't create group#3 of propositions");                   
         foreach($group3 as $shop){
             $shop = $this -> getCommision($shop,$term,$money,3);
         }
         uasort($group3,array($this, "mySort"));
         return $this->render('ajax.html.twig', array("group1" => $group1, "group2" => $group2, "group3" => $group3, "money"=> $money, "term"=>$term));
     }
+    
+    /**
+     * @Route("/filterselect/{id}", name="filterselect")
+     */        
+    public function filterselectAction($id=1)
+    {
+        $conditions = $this->getDoctrine()
+                   ->getRepository('AppBundle:Articles')
+                   ->findByParentid($id);
+        if(!$conditions) throw $this->createNotFoundException("Condition not found");                   
+        return $this->render('blocks/conditions.html.twig',array('conditions'=>$conditions));
+    }
 
+     /**
+     * @Route("/sidebar", name="sidebar")
+     */        
+    public function sidebarAction()
+    {
+        $conditions = $this->getDoctrine()
+                   ->getRepository('AppBundle:Articles')
+                   ->findAll();
+        if(!$conditions) throw $this->createNotFoundException("Conditions not found");                   
+        return $this->render('blocks/conditions.html.twig',array('conditions'=>$conditions));
+    }
+    
     /**
      * @Route("/service/{id}", name="service")
      */    
@@ -100,15 +113,17 @@ class MainController extends Controller
         $service = $this->getDoctrine()
                    ->getRepository('AppBundle:Proposition')
                    ->findOneById($id);
+        if(!$service) throw $this->createNotFoundException("Service not found");                   
         $service = $this->getCommision($service,7,1000,1);
         $comments = new Comments();
         $comments->setCompanyId($service);
+        if(!$comments) throw $this->createNotFoundException("Comments not found");                   
         $form = $this->getForm($comments);         
         return $this->render('service.html.twig', array('shop'=>$service, 'title'=>$service->getCompany(), 'form' => $form->createView()));
     }
     
     /**
-     * @Route("/howto", name="howto")
+     * @Route("/howto/", name="howto")
      */    
     public function howtoAction()
     {
@@ -117,18 +132,20 @@ class MainController extends Controller
         $shops = $this->getDoctrine()
                  ->getRepository('AppBundle:Proposition')
                  ->getShops();
-        return $this->render('howto.html.twig',array('shops'=>$shops, 'title'=>'Как это работает', 'form'=>$form->createView()));
+        if(!$shops) throw $this->createNotFoundException("Propositions for howto not found");                   
+        return $this->render('howto.html.twig',array('shops'=>$shops, 'form'=>$form->createView()));
     }    
     
     /**
-     * @Route("/mainmenu", name="mainmenu")
+     * @Route("/mainmenu/{ua}/{ru}", name="mainmenu")
      */    
-    public function mainmenuAction()
+    public function mainmenuAction($ua='ua',$ru='ru')
     {
         $shops = $this->getDoctrine()
                  ->getRepository('AppBundle:Proposition')
                  ->getShops();
-        return $this->render('blocks/mainmenu.html.twig',array('shops'=>$shops));
+        if(!$shops) throw $this->createNotFoundException("Propositions for mainmenu not found");                   
+        return $this->render('blocks/mainmenu.html.twig',array('shops'=>$shops, 'ua'=>$ua, 'ru'=>$ru));
     }    
     
     /**
@@ -139,6 +156,7 @@ class MainController extends Controller
         $shops = $this->getDoctrine()
                  ->getRepository('AppBundle:Proposition')
                  ->getShops();
+        if(!$shops) throw $this->createNotFoundException("Propositions for slider not found");                   
         return $this->render('blocks/slider.html.twig',array('shops'=>$shops));
     }    
 
@@ -159,6 +177,7 @@ class MainController extends Controller
         $this->getDoctrine()
         ->getRepository('AppBundle:Comments')
         ->addComment($comment);
+        if(!$comment) throw $this->createNotFoundException("Can't add comments");                   
         return $this->redirectToRoute('service', array('id' => $comment->getCompanyId()->getId()));
     }    
     
@@ -189,11 +208,11 @@ class MainController extends Controller
     /**
      * @Route("/redirect", name="redirect")
      */    
-    public function redirectAction()
+    public function redirectAction(Request $request)
     {
         $condition = $_POST['conditions']; 
         $type = $_POST['type']; 
-        return $this->redirect('/'.$type.'/'.$condition);
+        return $this->redirectToRoute('condition',array('type'=>$type,'condition'=>$condition,'_locale'=>$request->getLocale()));
     }       
     
     /**
@@ -205,8 +224,36 @@ class MainController extends Controller
         $form = $this->getForm($subscriber); 
         $article = $this->getDoctrine()
                    ->getRepository('AppBundle:Articles')
-                   ->findOneById($type.'/'.$condition);
-        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'article'=>$article, 'form'=>$form->createView()));    
+                   ->findOneById('/'.$type.'/'.$condition);           
+        if(!$article) throw $this->createNotFoundException("Article not found");
+        $session  = $this->get('session');
+        $session->set('condition', $article->getId());        
+        $session->set('group', $article->getParentId());        
+        return $this->render('index.html.twig',array('title'=>$article->getTitle(),'meta'=>$article->getMeta(),'article'=>$article, 'form'=>$form->createView()));    
+    }  
+
+    // /**
+    // * @Route("/{admin}", name="admin")
+    // */    
+    // public function adminAction()
+    // {
+        // return $this->redirectToRoute('EasyAdminBundle\admin');
+    // }  
+
+    /**
+    * @Route("/{serviceslug}", name="shop", requirements={"serviceslug": "(?!admin|login).*"})
+    */    
+    public function shopAction($serviceslug)
+    {
+        $service = $this->getDoctrine()
+                   ->getRepository('AppBundle:Proposition')
+                   ->findOneBySlug($serviceslug);
+        if(!$service) throw $this->createNotFoundException("Service not found");                   
+        $service = $this->getCommision($service,7,1000,1);
+        $comments = new Comments();
+        $comments->setCompanyId($service);
+        $form = $this->getForm($comments);         
+        return $this->render('service.html.twig', array('shop'=>$service, 'title'=>$service->getCompany(), 'form' => $form->createView()));
     }  
 
     public function getForm($entity)
@@ -231,4 +278,31 @@ class MainController extends Controller
         } 
         return $form;        
     }   
+    
+    public function mySort($f1,$f2)
+    {
+        if(($f1->getRecomended() > 0) || ($f2->getRecomended() > 0)){
+            if(($f1->getRecomended() > $f2->getRecomended())) {return -1;} else {return 1;}
+        }
+        if($f1->commision < $f2->commision) return -1;
+        elseif($f1->commision > $f2->commision) return 1;
+        else return 0;
+    }
+    
+    public function getCommision($service,$term,$money,$group)
+    {
+        $correctCredit365 = 0; 
+        $correctCreditUp = 0;
+        if($service->getId() == 1) { $correctCredit365 = ($term-7)*0.015;}
+        if($service->getId() == 7) { $correctCreditUp = -1;}            
+        switch($group){
+            case 1: $service->commision = ($service->getfirstPercent()-$correctCredit365)*($term+$correctCreditUp)*$money*(100-$service->getfirstDiscount())/100/100+$service->getCommision1()+$service->getCommision2()*$money;
+            break;
+            case 2: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
+            break;
+            case 3: $service->commision = ($service->getnextPercent()-$correctCredit365)*($term+$correctCreditUp)*$money/100+$service->getCommision1()+$service->getCommision2()*$money;
+        }        
+        return $service;
+    }
+    
 }

@@ -1,0 +1,56 @@
+                    <!-- onekey-block -->
+                    <div class="onekey-block no-border small ">
+                                {% set mainfilter = app.session.get('mainfilter') %}
+                                {% if not mainfilter %} {% set mainfilter = 1 %} {%endif%}
+                        <form class="onekey-rating" action={{path('redirect')}} method="POST">
+                            <div class="onekey-select">
+                                <select name="type" id="mySelect" onchange="loadDoc()">
+                                    <option {%if mainfilter == 1%} selected {%endif%} value="1">{%trans%}Credit{%endtrans%}</option>
+                                    <option {%if mainfilter == 2%} selected {%endif%} value="2">{%trans%}Borrowing{%endtrans%}</option>
+                                    <option {%if mainfilter == 3%} selected {%endif%} value="3">{%trans%}Money{%endtrans%}</option>
+                                </select>
+                                <div class="onekey-select-arrow">
+                                    <div class="onekey-select-up"></div>
+                                    <div class="onekey-select-down"></div>
+                                </div>
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <div id="conditions">
+                                {{ render(controller('AppBundle:Main:filterselect', { 'id': mainfilter })) }}
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <div class="text-center">
+                                <!--<input class="onekey-btn color-2" type="submit" value="{%trans%}Compare{%endtrans%}">-->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="onekey-space marg-lg-b25"></div>
+                    <div class="onekey-block no-border small ">
+                        <form class="onekey-subscribe" method="POST" action="{{ path('addsubscriber') }}">
+                            <img class="img-responsive center-block" src="/img/logo.png" height="82" width="250" alt="">
+                            <div class="onekey-simple-text">
+                                <p>{%trans%}Would you like to receive a loan on the most favorable terms?{%endtrans%}</p>
+                                <p>{%trans%}Subscribe to our newsletter with shares from credit companies{%endtrans%}</p>
+                                <p>{%trans%}Our rule is no more than 1 letter per month.{%endtrans%}</p>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.user, { 'attr': {'placeholder': 'Your name *', 'value': app.request.cookies.get("user")  } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.mail, { 'attr': {'placeholder': 'Your email *', 'value': app.request.cookies.get("mail") } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            <div class="onekey-input">
+                                {{ form_widget(form.tel, { 'attr': {'placeholder': 'Telephone (optional)', 'value': app.request.cookies.get("tel") } }) }}
+                                <div class="onekey-input-arrow">!</div>
+                            </div>
+                            
+                            <div class="onekey-hr"></div>
+                            <div class="text-center">
+                                {{ form_widget(form.submit, { 'label': 'Subscribe', 'attr': {'class': 'onekey-btn color-2' } }) }}
+                            </div>                          
+                            {#<input type="hidden" name="route" value="{{ app.request.getRequestUri() }}">#}
+                        </form>
+                    </div>
+                    <div class="onekey-space marg-lg-b30"></div>                                       

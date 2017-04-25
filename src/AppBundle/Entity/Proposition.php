@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Form\Type\VichFileType;
@@ -25,6 +26,13 @@ class Proposition
      * @ORM\Column(name="company", type="string", length=50, nullable=false)
      */
     private $company;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=30, nullable=false)
+     */
+    private $slug;
 
     /**
      * @var string
@@ -167,12 +175,12 @@ class Proposition
     protected $about;
 	
     /**
-    * @ORM\OneToMany(targetEntity="Contact", mappedBy="companyid")
+    * @ORM\OneToMany(targetEntity="Contact", mappedBy="companyid", cascade={"persist"})
     */
     protected $contacts;
 
     /**
-    * @ORM\OneToMany(targetEntity="Comments", mappedBy="companyid")
+    * @ORM\OneToMany(targetEntity="Comments", mappedBy="companyid", cascade={"persist"})
     * @ORM\OrderBy({"publdate" = "DESC"})
     */    
     protected $comments;
@@ -625,6 +633,31 @@ class Proposition
     {
         return $this->about;
     }
+    
+        /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Proposition
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
 
     /**
      * Add contact
@@ -741,7 +774,27 @@ class Proposition
     {
         $this->contacts->removeElement($contact);
     }
+    
+    public function getCommentsCount()
+    {
+        $cnt = 0;
+        foreach ($this->comments as $entry) {
+            $cnt += 1;
+        }
+        return $cnt;
+    }
 
+    public function getAVGrank()
+    {
+        $avg = 0; $cnt=0;
+        foreach ($this->comments as $entry) {
+            $avg += $entry->getRank();
+            $cnt++; 
+        }
+        $avg = $cnt==0 ? 0 : $avg/$cnt;
+        return round($avg);
+    }
+    
     public function __toString()
     {
         return $this->company;

@@ -15,7 +15,7 @@
                             Відсутня стаття
                             {% endif %}
                             {% if shop.contacts|length > 0 %}
-                            <h4>Контакты</h4>
+                            <h3>Контакты</h3>
                             <table>
                             <tbody>
                                 {% for contact in shop.contacts %}
@@ -32,9 +32,10 @@
                         <div class="onekey-hr"></div>
                         <div class="onekey-space marg-lg-b30"></div>
                         <p class="text-center">
-                            <a class="onekey-btn" href="{{ shop.landing }}">Оформить заявку</a>
+                            <a class="onekey-btn" href="{{ shop.landing }}">{%trans%}Make a request{%endtrans%}</a>
                         </p>                            
                     </div>
+                    <a name="review"></a>
                     <div class="onekey-space marg-lg-b30"></div>
                     {% include 'blocks/reviews.html.twig' %}    
                     {% include 'blocks/reviewform.html.twig'%}                    
@@ -43,3 +44,5 @@
             <div class="onekey-space marg-lg-b30"></div>
         </div>
     {% endblock %}
+    {% set title = shop.about[0].title %}
+    {% set meta = shop.about[0].meta %}

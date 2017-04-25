@@ -1,0 +1,30 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+    <style type="text/css">
+    {{ include('@FOSUser/Security/style.css') }}
+    </style>
+
+<form class="form-3" action="{{ path("fos_user_security_check") }}" method="post">
+
+    <p class="clearfix">
+        <label for="username">Логин</label>
+        <input type="text" name="_username" id="username" placeholder="Логин" required="required">
+    </p>
+    <p class="clearfix">
+        <label for="password">Пароль</label>
+        <input type="password" name="_password" id="password" placeholder="Пароль" required="required">
+    </p>
+    <p class="clearfix">
+        <input type="checkbox" name="_remember_me" id="remember_me">
+        <label for="remember_me">Запомнить меня</label>
+    </p>
+    <p class="clearfix">
+        <input type="submit" id="_submit" name="_submit" value="Войти">
+    </p>      
+    {% if csrf_token %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% endif %}
+</form>

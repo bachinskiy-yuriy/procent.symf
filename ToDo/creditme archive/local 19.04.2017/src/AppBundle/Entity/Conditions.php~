@@ -1,0 +1,47 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Conditions
+ *
+ * @ORM\Table(name="conditions")
+ * @ORM\Entity
+ */
+class Conditions
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="parentid", type="integer", nullable=false)
+     */
+    private $parentid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="filter", type="string", length=40, nullable=false)
+     */
+    private $filter;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=30, nullable=false)
+     */
+    private $slug;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
+

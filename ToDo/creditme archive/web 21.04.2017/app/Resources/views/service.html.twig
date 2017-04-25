@@ -1,0 +1,47 @@
+{% extends 'baseLayer.html.twig' %}
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    {% include 'blocks/leftsidebar.html.twig' %}
+                </div>            
+                <div class="col-md-9">
+                    <div class="onekey-space marg-lg-b30"></div>  
+                    <div class="onekey-block no-border">
+                        <div class="onekey-simple-text">
+                            {% if shop.about[0].article is defined %}
+                            {{ shop.about[0].article|raw }}
+                            {% else %}
+                            Відсутня стаття
+                            {% endif %}
+                            {% if shop.contacts|length > 0 %}
+                            <h4>Контакты</h4>
+                            <table>
+                            <tbody>
+                                {% for contact in shop.contacts %}
+                                <tr>
+                                    <td>{{ contact.key }}:</td>
+                                    <td>{{ contact.value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                            {% endif %}
+                        </div>
+                        <div class="onekey-space marg-lg-b30"></div>
+                        <div class="onekey-hr"></div>
+                        <div class="onekey-space marg-lg-b30"></div>
+                        <p class="text-center">
+                            <a class="onekey-btn" href="{{ shop.landing }}">{%trans%}Make a request{%endtrans%}</a>
+                        </p>                            
+                    </div>
+                    <div class="onekey-space marg-lg-b30"></div>
+                    {% include 'blocks/reviews.html.twig' %}    
+                    {% include 'blocks/reviewform.html.twig'%}                    
+                </div>
+            </div>
+            <div class="onekey-space marg-lg-b30"></div>
+        </div>
+    {% endblock %}
+    {% set title = shop.about[0].title %}
+    {% set meta = shop.about[0].meta %}

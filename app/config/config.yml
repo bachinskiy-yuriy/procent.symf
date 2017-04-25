@@ -53,7 +53,9 @@ twig:
         commentsperpage: "%commentsperpage%"
         money_example: "%money_example%"
         term_example: "%term_example%"
-
+        office_mail: "%mailer_user%"
+        bg: "%background%"
+        
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -64,18 +66,50 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        option:
+            1001: true
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #path:     "%database_path%"
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                # filters:
+                    # softdeleteable:
+                        # class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        # enabled: true
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
+                        
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -104,6 +138,10 @@ easy_admin:
             - { entity: 'Comments', icon: 'comments-o' }
             - { entity: 'Articles', icon: 'file-text-o' }
             - { entity: 'Subscriber', icon: 'user-o' }
+            #- { label: 'Импорт', icon: 'files-o', route:'import' }
+            - { label: '' }
+            - { label: 'Импорт', icon: 'files-o', route:'import' }
+
         form_theme: "vertical"
         assets:
             favicon: "/img/admin.png"
@@ -117,8 +155,19 @@ easy_admin:
              - { name: 'edit', icon: 'pencil' }
              - { name: 'delete', icon: 'trash-o' }
     show:
-        max_results: 5
+        max_results: 10
     entities:
+        Users:
+            class: AppBundle\Entity\Users
+            form:
+                fields:
+                    - username
+                    - email
+                    - enabled
+                    - lastLogin
+                    # if administrators are allowed to edit users' passwords and roles, add this:
+                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
         Proposition:
             class: AppBundle\Entity\Proposition
             label: "Propositions"
@@ -157,48 +206,48 @@ easy_admin:
             label: "About company"
             list:
                 title: "Company info list"
-                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company' },{ property: 'article', label: 'Article' }]
+                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company', type: 'association', virtual: false, sortable: true, targetEntity: 'AppBundle\Entity\Proposition', associationType: 2 }, { property: 'article', label: 'Article' }]
                 # назва компанії - посилання
                 sort: ['id', 'ASC']
             form:
                 title: "Edit article"
                 fields: 
                     - { type: 'group', label: 'About company', icon: 'info-circle', css_class: 'col-sm-12' }
-                    - { property: 'article', label: 'Article' }
                     - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
+                    - { property: 'article', label: 'Article', type: 'ckeditor' }
         Contact:
             class: AppBundle\Entity\Contact
             label: "Contacts"
             list:
                 title: "Contact list"
-                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company' }, { property: 'key', label: 'Key' }, { property: 'value', label: 'Value' }]
+                fields: [{ property: 'id', label: 'Id' }, { property: 'companyId', label: 'Company', type: 'association', virtual: false, sortable: true, targetEntity: 'AppBundle\Entity\Proposition', associationType: 2 }, { property: 'key', label: 'Key' }, { property: 'value', label: 'Value' }]
                 # назва компанії - посилання
                 sort: ['id', 'ASC']
             form:
                 title: "Edit contact"
                 fields: 
                     - { type: 'group', label: 'Contact', icon: 'address-book-o', css_class: 'col-sm-12' }
+                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
                     - { property: 'key', label: 'Key' }
                     - { property: 'value', label: 'Value' }
-                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
         Comments:
             class: AppBundle\Entity\Comments
             label: "Comments"
             list:
                 title: "Comment list"
-                fields: [{ property: 'publdate', label: 'Pulication date' }, { property: 'user', label: 'User' },{ property: 'msg', label: 'Comment' },{ property: 'rank', label: 'Rank' },{ property: 'moderate', label: 'Active', type:'toggle' }]    
+                fields: [{ property: 'publdate', label: 'Pulication date' },{ property: 'companyId', label: 'Company', type: 'association', virtual: false, sortable: true, targetEntity: 'AppBundle\Entity\Proposition', associationType: 2 }, { property: 'user', label: 'User' },{ property: 'msg', label: 'Comment' },{ property: 'rank', label: 'Rank' },{ property: 'moderate', label: 'Active', type:'toggle' }]    
                 sort: ['publdate', 'DESC']
             form: 
                 title: "Edit comment"
                 fields: 
                     - { type: 'group', label: 'Коментар', icon: 'comments-o', css_class: 'col-sm-12' }
+                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
                     - { property: 'user', label: 'User' }
                     - { property: 'mail', label: 'Email' }
                     - { property: 'rank', label: 'Rank' }
                     - { property: 'publdate', label: 'Date of publication' }
-                    - { property: 'msg', label: 'Message' }
+                    - { property: 'msg', label: 'Message', type : 'ckeditor' }
                     - { property: 'moderate', label: 'Publication status' }
-                    - { property: 'companyId', label: 'Company', type: 'entity', type_options: { class: 'AppBundle\Entity\Proposition' } }
         Articles:
             class: AppBundle\Entity\Articles
             label: "Articles"
@@ -212,7 +261,7 @@ easy_admin:
                     - { type: 'group', label: 'Article', icon: 'file-text-o', css_class: 'col-sm-12' }
                     - { property: 'id', label: 'SLUG' }
                     - { property: 'title', label: 'Header' }
-                    - { property: 'article', label: 'Article body' }
+                    - { property: 'article', label: 'Article body', type: 'ckeditor' }
 
         Subscriber:
             class: AppBundle\Entity\Subscriber
@@ -228,3 +277,24 @@ easy_admin:
                     - { property: 'mail', label: 'Email' }
                     - { property: 'tel', label: 'Telephone' }
                     - { property: 'subscribedate', label: 'Subscribe date' }
+
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: AppBundle\Entity\Users
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+
+jms_i18n_routing:
+    default_locale: ru
+    locales: [ru, ua, en]
+    strategy: prefix_except_default
+        
+stof_doctrine_extensions:
+    default_locale: ru
+    orm:
+        default:
+            translatable: true
+    class:
+        translatable:   Gedmo\Translatable\TranslatableListener

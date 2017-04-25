@@ -1,0 +1,31 @@
+                    <div class="onekey-space marg-lg-b30"></div>  
+                    <!-- onekey-block -->
+                    <div class="onekey-block no-border small ">
+                        <div class="onekey-about">
+                            <img class="img-responsive center-block" src="/img/icons/{{ shop.img }}" height="130" width="300" alt="">
+                            <div class="text-center">
+                                <a class="onekey-btn" href="{{ shop.landing }}">{%trans%}Make a request{%endtrans%}</a>
+                            </div>
+                            <div class="onekey-hr"></div>
+                            <div class="onekey-simple-text style-2">
+                                <h5>{%trans%}Amount of 1 credit{%endtrans%}:</h5>
+                                <p><span class="large">{{shop.summin }} - {{ shop.firstsummax}} грн</span></p>
+                                <h5>{%trans%}Max summ{%endtrans%}:</h5>
+                                <p><span class="large">{{ shop.nextsummax }} грн</span></p>
+                                <h5>{%trans%}Term{%endtrans%}:</h5>
+                                <p><span class="large">{{ shop.daymin }} - {{ shop.nextdaymax }} {%trans%}days{%endtrans%}</span></p>
+                                <h5>{%trans%}Percent{%endtrans%}:</h5>
+                                <p><span class="large">{{ shop.firstpercent }} - {{ shop.nextpercent }} %</span></p>
+                                <h5>{%trans%}Conditions{%endtrans%} :</h5>
+                                <ul>
+                                    <li>{%trans%}Age 18 years and over{%endtrans%}</li>
+                                    <li>{%trans%}Citizenship of Ukraine{%endtrans%}</li>
+                                    <li>{%trans%}Presence of constant income{%endtrans%}</li>
+                                    <li>{%trans%}Presence of a valid bank card in any bank of Ukraine{%endtrans%}</li>
+                                    <li>{%trans%}Absence of previous delinquencies for loans{%endtrans%}</li>
+                                </ul>
+                                <h5>{%trans%}Example calculation{%endtrans%}:</h5>
+                                <p>{%trans%}Loan amount{%endtrans%} – {{ money_example }} грн.<br/>{%trans%}On term{%endtrans%} – {{ term_example }} {%trans%}days{%endtrans%}<br/>{%trans%}Percent{%endtrans%} – {{ shop.firstpercent }}%<br/>{%trans%}Amount to be returned{%endtrans%} – {{ money_example+shop.commision }} грн.<br/>({%trans%}taking into account the discount for the first loan{%endtrans%})</p>                             
+                            </div>
+                        </div>
+                    </div>
